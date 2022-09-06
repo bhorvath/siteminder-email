@@ -21,6 +21,10 @@ export class InMemoryDataStore implements DataStore {
     return record;
   }
 
+  async updateEmail(id: string, email: EmailRecord): Promise<void> {
+    InMemoryDataStore.records.set(id, email);
+  }
+
   async getEmails(id?: UUID): Promise<EmailRecord[]> {
     // TODO: allow particular email to be returned based on ID
     return Array.from(InMemoryDataStore.records.values());

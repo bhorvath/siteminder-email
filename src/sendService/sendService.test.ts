@@ -1,3 +1,4 @@
+import { EmailStatus } from "../types/emailStatus";
 import { MockDataStore } from "../__mocks__/mockDataStore";
 import { MockEmailProvider } from "../__mocks__/mockEmailProvider";
 import { mockEmailRecord } from "../__mocks__/mockEmailRecord";
@@ -36,6 +37,13 @@ describe("SendService", () => {
 
       expect(provider1.emails).toStrictEqual([mockEmailRecord]);
       expect(provider2.emails).toStrictEqual([]);
+    });
+
+    it("marks an email as completed if it sent successfully", async () => {
+      await service.sendEmails();
+      const updatedRecord = { ...mockEmailRecord, status: EmailStatus.Sent };
+
+      expect(dataStore.updatedEmails).toStrictEqual([updatedRecord]);
     });
   });
 });

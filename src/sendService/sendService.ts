@@ -16,9 +16,17 @@ export class SendService {
 
     console.log(`Found ${queuedEmails.length} queued emails`);
     queuedEmails.forEach(async (email) => {
+      await this.dataStore.updateEmail(email.id, {
+        ...email,
+        status: EmailStatus.Processing,
+      });
       for (const provider of this.providers) {
         try {
           await provider.sendEmail(email);
+          await this.dataStore.updateEmail(email.id, {
+            ...email,
+            status: EmailStatus.Sent,
+          });
           console.log(`Successfully sent email with ID ${email.id}`);
           return;
         } catch (e) {
