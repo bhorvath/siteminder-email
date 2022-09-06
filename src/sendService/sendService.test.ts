@@ -5,19 +5,37 @@ import { SendService } from "./sendService";
 
 describe("SendService", () => {
   describe("sendEmails()", () => {
-    let service: SendService;
     let dataStore: MockDataStore;
-    let provider: MockEmailProvider = new MockEmailProvider();
+    let provider1: MockEmailProvider;
+    let provider2: MockEmailProvider;
+    let service: SendService;
 
     beforeEach(() => {
       dataStore = new MockDataStore();
-      service = new SendService(dataStore, [provider]);
+      provider1 = new MockEmailProvider();
+      provider2 = new MockEmailProvider();
+      service = new SendService(dataStore, [provider1, provider2]);
     });
 
     it("calls a provider for each email with a status of queued", async () => {
       await service.sendEmails();
 
-      expect(provider.emails).toStrictEqual([mockEmailRecord]);
+      expect(provider1.emails).toStrictEqual([mockEmailRecord]);
+    });
+
+    it("falls back to alternative providers if a provider fails", async () => {
+      provider1.failOnNextSend = true;
+      await service.sendEmails();
+
+      expect(provider1.emails).toStrictEqual([]);
+      expect(provider2.emails).toStrictEqual([mockEmailRecord]);
+    });
+
+    it("doesn't try alternative providers if a provider succeeds", async () => {
+      await service.sendEmails();
+
+      expect(provider1.emails).toStrictEqual([mockEmailRecord]);
+      expect(provider2.emails).toStrictEqual([]);
     });
   });
 });

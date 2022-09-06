@@ -14,10 +14,16 @@ export class SendService {
       (email) => email.status === EmailStatus.Queued
     );
 
+    console.log(`Found ${queuedEmails.length} queued emails`);
     queuedEmails.forEach(async (email) => {
       for (const provider of this.providers) {
-        await provider.sendEmail(email);
-        console.log(`Successfully sent email with ID ${email.id}`);
+        try {
+          await provider.sendEmail(email);
+          console.log(`Successfully sent email with ID ${email.id}`);
+          return;
+        } catch (e) {
+          console.error("Error encountered sending email", e);
+        }
       }
     });
   }
