@@ -6,6 +6,10 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"UUID": {
+				"type": "string",
+				"pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+			},
 			"Email": {
 				"properties": {
 					"body": {
@@ -41,6 +45,34 @@
 					"fromAddress"
 				],
 				"type": "object"
+			},
+			"EmailStatus": {
+				"enum": [
+					0,
+					1,
+					2,
+					3
+				],
+				"type": "number"
+			},
+			"EmailRecord": {
+				"properties": {
+					"status": {
+						"$ref": "#/components/schemas/EmailStatus"
+					},
+					"email": {
+						"$ref": "#/components/schemas/Email"
+					},
+					"id": {
+						"$ref": "#/components/schemas/UUID"
+					}
+				},
+				"required": [
+					"status",
+					"email",
+					"id"
+				],
+				"type": "object"
 			}
 		},
 		"securitySchemes": {}
@@ -58,7 +90,14 @@
 				"operationId": "CreateEmail",
 				"responses": {
 					"201": {
-						"description": "Created"
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/EmailRecord"
+								}
+							}
+						}
 					}
 				},
 				"security": [],

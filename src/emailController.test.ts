@@ -1,5 +1,6 @@
 import { EmailController } from "./emailController";
 import { mockEmail } from "./__mocks__/mockEmail";
+import { mockEmailRecord } from "./__mocks__/mockEmailRecord";
 import { MockEmailService } from "./__mocks__/mockEmailService";
 
 describe("EmailController", () => {
@@ -16,6 +17,12 @@ describe("EmailController", () => {
       await controller.createEmail(mockEmail);
 
       expect(service.emails).toStrictEqual([mockEmail]);
+    });
+
+    it("returns the new email record", async () => {
+      const response = await controller.createEmail(mockEmail);
+
+      expect(response).toStrictEqual(mockEmailRecord);
     });
   });
 });

@@ -1,13 +1,12 @@
 import { Email } from "../types/email";
 import { EmailRecord, EmailStatus } from "../types/emailRecord";
-import { UUID } from "../types/uuid";
 import { DataStore } from "./dataStore";
 import { randomUUID } from "crypto";
 
 export class InMemoryDataStore implements DataStore {
   private records: EmailRecord[] = [];
 
-  async addEmail(email: Email): Promise<UUID> {
+  async addEmail(email: Email): Promise<EmailRecord> {
     const uuid = randomUUID();
 
     const record: EmailRecord = {
@@ -17,7 +16,7 @@ export class InMemoryDataStore implements DataStore {
     };
     this.records.push(record);
 
-    return uuid;
+    return record;
   }
 
   checkEmailStatus(uuid: string): Promise<EmailRecord> {
