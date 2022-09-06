@@ -43,7 +43,16 @@ describe("SendService", () => {
       await service.sendEmails();
       const updatedRecord = { ...mockEmailRecord, status: EmailStatus.Sent };
 
-      expect(dataStore.updatedEmails).toStrictEqual([updatedRecord]);
+      expect(dataStore.updatedEmails.at(-1)).toStrictEqual(updatedRecord);
+    });
+
+    it("marks an email as error if it did not send successfully", async () => {
+      provider1.failOnNextSend = true;
+      provider2.failOnNextSend = true;
+      await service.sendEmails();
+      const updatedRecord = { ...mockEmailRecord, status: EmailStatus.Error };
+
+      expect(dataStore.updatedEmails.at(-1)).toStrictEqual(updatedRecord);
     });
   });
 });
