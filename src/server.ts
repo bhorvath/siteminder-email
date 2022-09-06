@@ -12,6 +12,12 @@ app.listen(port, () =>
 
 const startSendService = async () => {
   const dataStore = new InMemoryDataStore();
+  /**
+   * Additional providers can be added and they will be used as fallback in the order they are
+   * added. eg:
+   *
+   * `const providers = [getMailjetProvider(), new MailgunProvider(), new SendGridProvider()];`
+   */
   const providers = [getMailjetProvider()];
   const sendService = new SendService(dataStore, providers);
   setInterval(async () => {
