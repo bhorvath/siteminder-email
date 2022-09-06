@@ -4,5 +4,5 @@ export type Email = {
   ccAddresses?: string[];
   bccAddresses?: string[];
   subject?: string;
-  body?: string;
+  body: string;
 };

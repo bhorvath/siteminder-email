@@ -12,12 +12,19 @@ app.listen(port, () =>
 
 const startSendService = async () => {
   const dataStore = new InMemoryDataStore();
-  const providers = [new MailjetProvider()];
+  const providers = [getMailjetProvider()];
   const sendService = new SendService(dataStore, providers);
   setInterval(async () => {
     await sendService.sendEmails();
   }, sendEmailInterval);
   await sendService.sendEmails();
+};
+
+const getMailjetProvider = (): MailjetProvider => {
+  const mailjetPublicKey = "";
+  const mailjetPrivateKey = "";
+
+  return new MailjetProvider(mailjetPublicKey, mailjetPrivateKey);
 };
 
 (async () => await startSendService())();

@@ -41,6 +41,7 @@
 					}
 				},
 				"required": [
+					"body",
 					"toAddresses",
 					"fromAddress"
 				],
