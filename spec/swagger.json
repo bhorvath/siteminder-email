@@ -5,7 +5,44 @@
 		"parameters": {},
 		"requestBodies": {},
 		"responses": {},
-		"schemas": {},
+		"schemas": {
+			"Email": {
+				"properties": {
+					"body": {
+						"type": "string"
+					},
+					"subject": {
+						"type": "string"
+					},
+					"bccAddresses": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"ccAddresses": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"toAddresses": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"fromAddress": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"toAddresses",
+					"fromAddress"
+				],
+				"type": "object"
+			}
+		},
 		"securitySchemes": {}
 	},
 	"info": {
@@ -15,7 +52,30 @@
 		"contact": {}
 	},
 	"openapi": "3.0.0",
-	"paths": {},
+	"paths": {
+		"/api/v1/emails": {
+			"post": {
+				"operationId": "CreateEmail",
+				"responses": {
+					"201": {
+						"description": "Created"
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Email"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
 	"servers": [
 		{
 			"url": "/"

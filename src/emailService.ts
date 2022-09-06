@@ -1,10 +1,12 @@
-import { inject } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 import { DataStore } from "./dataAccess/dataStore";
 import { Dependency } from "./dependency";
+import { IEmailService } from "./emailController";
 import { Email } from "./types/email";
 import { UUID } from "./types/uuid";
 
-export class EmailService {
+@injectable()
+export class EmailService implements IEmailService {
   constructor(@inject(Dependency.DataStore) private dataStore: DataStore) {}
 
   async createEmailRecord(email: Email): Promise<UUID> {
