@@ -31,7 +31,7 @@ export class SendService {
       }
 
       await this.updateStatus(email, EmailStatus.Error);
-      console.log(`Failed to send email with ID ${email.id}`);
+      console.error(`Failed to send email with ID ${email.id}`);
     }
   }
 
