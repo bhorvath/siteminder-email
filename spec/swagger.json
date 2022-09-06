@@ -74,6 +74,17 @@
 					"id"
 				],
 				"type": "object"
+			},
+			"ApiResponseBody_EmailRecord_": {
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/EmailRecord"
+					}
+				},
+				"required": [
+					"data"
+				],
+				"type": "object"
 			}
 		},
 		"securitySchemes": {}
@@ -95,7 +106,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/EmailRecord"
+									"$ref": "#/components/schemas/ApiResponseBody_EmailRecord_"
 								}
 							}
 						}

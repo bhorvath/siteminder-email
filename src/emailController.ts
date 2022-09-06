@@ -1,6 +1,7 @@
 import { Body, Controller, Post, Route, SuccessResponse } from "tsoa";
 import { inject, singleton } from "tsyringe";
 import { Dependency } from "./dependency";
+import { ApiResponseBody } from "./types/api";
 import { Email } from "./types/email";
 import { EmailRecord } from "./types/emailRecord";
 
@@ -18,10 +19,14 @@ export class EmailController extends Controller {
 
   @Post()
   @SuccessResponse("201", "Created")
-  async createEmail(@Body() email: Email): Promise<EmailRecord> {
+  async createEmail(
+    @Body() email: Email
+  ): Promise<ApiResponseBody<EmailRecord>> {
     const record = await this.service.createEmailRecord(email);
     this.setHeader("Location", "/api/v1/emails/" + record.id);
 
-    return record;
+    return {
+      data: record,
+    };
   }
 }

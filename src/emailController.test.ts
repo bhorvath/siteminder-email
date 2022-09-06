@@ -22,7 +22,7 @@ describe("EmailController", () => {
     it("returns the new email record", async () => {
       const response = await controller.createEmail(mockEmail);
 
-      expect(response).toStrictEqual(mockEmailRecord);
+      expect(response).toStrictEqual({ data: mockEmailRecord });
     });
   });
 });
