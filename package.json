@@ -6,7 +6,9 @@
   "scripts": {
     "build": "tsoa spec-and-routes && tsc -p tsconfig.build.json",
     "start": "node dist/server.js",
-    "start:dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\""
+    "start:dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.2",
