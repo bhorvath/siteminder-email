@@ -6,7 +6,7 @@ import { EmailStatus } from "../types/emailStatus";
 import { UUID } from "../types/uuid";
 
 export class InMemoryDataStore implements DataStore {
-  private records: EmailRecord[] = [];
+  private static records: EmailRecord[] = [];
 
   async addEmail(email: Email): Promise<EmailRecord> {
     const uuid = randomUUID();
@@ -16,12 +16,12 @@ export class InMemoryDataStore implements DataStore {
       email,
       status: EmailStatus.Queued,
     };
-    this.records.push(record);
+    InMemoryDataStore.records.push(record);
 
     return record;
   }
 
   async getEmails(id?: UUID): Promise<EmailRecord[]> {
-    return this.records;
+    return InMemoryDataStore.records;
   }
 }
