@@ -7,7 +7,7 @@ export type EmailRecord = {
   status: EmailStatus;
 };
 
-enum EmailStatus {
+export enum EmailStatus {
   Queued,
   Processing,
   Sent,
