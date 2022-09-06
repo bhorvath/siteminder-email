@@ -6,16 +6,17 @@ import {
   InvalidMailjetApiKeyError,
   MailjetProvider,
   MailjetRequestBody,
+  MailjetSendEmailError,
 } from "./mailjetProvider";
 
 const mockAxios = new MockAdapter(axios);
 
 describe("MailjetProvider", () => {
-  afterEach(() => mockAxios.resetHistory());
+  afterEach(() => mockAxios.reset());
 
   describe("constructor", () => {
     it("throws an error if the API keys don't exist", () => {
-      expect(() => new MailjetProvider("", "")).toThrow(
+      expect(() => new MailjetProvider("", "")).toThrowError(
         InvalidMailjetApiKeyError
       );
     });
@@ -40,6 +41,14 @@ describe("MailjetProvider", () => {
       );
       expect(mockAxios.history.post[0].data).toStrictEqual(
         JSON.stringify(request)
+      );
+    });
+
+    it("throws an error if an email failed to be sent", async () => {
+      mockAxios.onPost("v3/send").reply(400);
+      const provider = new MailjetProvider("123", "456");
+      await expect(provider.sendEmail(mockEmailRecord)).rejects.toThrowError(
+        MailjetSendEmailError
       );
     });
   });

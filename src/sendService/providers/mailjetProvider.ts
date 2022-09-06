@@ -18,6 +18,12 @@ export class InvalidMailjetApiKeyError extends Error {
   }
 }
 
+export class MailjetSendEmailError extends Error {
+  constructor(msg: string) {
+    super(msg);
+  }
+}
+
 const baseUrl = "https://api.mailjet.com";
 
 export class MailjetProvider implements EmailProvider {
@@ -33,7 +39,9 @@ export class MailjetProvider implements EmailProvider {
     const body = this.buildBody(emailRecord.email);
     const requestConfig = this.buildRequestConfig();
 
-    await axios.post("v3/send", body, requestConfig);
+    await axios.post("v3/send", body, requestConfig).catch((error) => {
+      throw new MailjetSendEmailError(error.message);
+    });
   }
 
   private buildBody(email: Email): MailjetRequestBody {

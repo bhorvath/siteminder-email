@@ -22,7 +22,7 @@ export class SendService {
           console.log(`Successfully sent email with ID ${email.id}`);
           return;
         } catch (e) {
-          console.error("Error encountered sending email", e);
+          console.error("Error encountered sending email\n", e);
         }
       }
     });
