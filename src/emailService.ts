@@ -10,7 +10,7 @@ export class EmailService implements IEmailService {
   constructor(@inject(Dependency.DataStore) private dataStore: DataStore) {}
 
   async createEmailRecord(email: Email): Promise<EmailRecord> {
-    console.log("Creating email", email);
+    console.log("Creating email with subject", email.subject);
 
     return await this.dataStore.addEmail(email);
   }

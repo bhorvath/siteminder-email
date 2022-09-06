@@ -4,5 +4,5 @@ import { UUID } from "../types/uuid";
 
 export interface DataStore {
   addEmail(email: Email): Promise<EmailRecord>;
-  checkEmailStatus(uuid: UUID): Promise<EmailRecord>;
+  getEmails(id?: UUID): Promise<EmailRecord[]>;
 }

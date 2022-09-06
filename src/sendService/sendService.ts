@@ -1,4 +1,5 @@
 import { DataStore } from "../dataAccess/dataStore";
+import { EmailStatus } from "../types/emailStatus";
 import { EmailProvider } from "./providers/emailProvider";
 
 export class SendService {
@@ -6,4 +7,18 @@ export class SendService {
     private dataStore: DataStore,
     private providers: EmailProvider[]
   ) {}
+
+  async sendEmails(): Promise<void> {
+    const allEmails = await this.dataStore.getEmails();
+    const queuedEmails = allEmails.filter(
+      (email) => email.status === EmailStatus.Queued
+    );
+
+    queuedEmails.forEach(async (email) => {
+      for (const provider of this.providers) {
+        await provider.sendEmail(email);
+        console.log(`Successfully sent email with ID ${email.id}`);
+      }
+    });
+  }
 }

@@ -1,4 +1,5 @@
-import { EmailRecord, EmailStatus } from "../types/emailRecord";
+import { EmailRecord } from "../types/emailRecord";
+import { EmailStatus } from "../types/emailStatus";
 import { mockEmail } from "./mockEmail";
 import { mockUuid } from "./mockUuid";
 

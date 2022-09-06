@@ -1,7 +1,9 @@
 import { Email } from "../types/email";
-import { EmailRecord, EmailStatus } from "../types/emailRecord";
+import { EmailRecord } from "../types/emailRecord";
 import { DataStore } from "./dataStore";
 import { randomUUID } from "crypto";
+import { EmailStatus } from "../types/emailStatus";
+import { UUID } from "../types/uuid";
 
 export class InMemoryDataStore implements DataStore {
   private records: EmailRecord[] = [];
@@ -19,7 +21,7 @@ export class InMemoryDataStore implements DataStore {
     return record;
   }
 
-  checkEmailStatus(uuid: string): Promise<EmailRecord> {
-    throw new Error("Method not implemented.");
+  async getEmails(id?: UUID): Promise<EmailRecord[]> {
+    return this.records;
   }
 }
