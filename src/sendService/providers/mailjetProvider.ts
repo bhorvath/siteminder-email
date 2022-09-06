@@ -12,10 +12,20 @@ export type MailjetRequestBody = {
   "Text-part": string;
 };
 
+export class InvalidMailjetApiKeyError extends Error {
+  constructor() {
+    super("Invalid Mailjet API keys");
+  }
+}
+
 const baseUrl = "https://api.mailjet.com";
 
 export class MailjetProvider implements EmailProvider {
-  constructor(private apiKeyPublic: string, private apiKeyPrivate: string) {}
+  constructor(private apiKeyPublic: string, private apiKeyPrivate: string) {
+    if (apiKeyPublic.length === 0 || apiKeyPrivate.length === 0) {
+      throw new InvalidMailjetApiKeyError();
+    }
+  }
 
   async sendEmail(emailRecord: EmailRecord): Promise<void> {
     console.log("Sending email via mailjet", emailRecord.id);
