@@ -8,10 +8,10 @@ import { mockEmailRecord } from "./mockEmailRecord";
 
 @injectable()
 export class MockDataStore implements DataStore {
-  emails: Email[] = [];
+  addedEmails: Email[] = [];
 
   async addEmail(email: Email): Promise<EmailRecord> {
-    this.emails.push(email);
+    this.addedEmails.push(email);
 
     return mockEmailRecord;
   }

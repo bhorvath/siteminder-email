@@ -16,7 +16,7 @@ describe("EmailService", () => {
     it("creates an email record", async () => {
       await service.createEmailRecord(mockEmail);
 
-      expect(dataStore.emails).toStrictEqual([mockEmail]);
+      expect(dataStore.addedEmails).toStrictEqual([mockEmail]);
     });
 
     it("returns the new email record", async () => {
