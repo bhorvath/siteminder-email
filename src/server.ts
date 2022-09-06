@@ -2,6 +2,9 @@ import { app } from "./app";
 import { InMemoryDataStore } from "./dataAccess/InMemoryDataStore";
 import { MailjetProvider } from "./sendService/providers/mailjetProvider";
 import { SendService } from "./sendService/sendService";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 const port = process.env.PORT || 3000;
 const sendEmailInterval = 30_000; // 30 seconds
@@ -27,8 +30,8 @@ const startSendService = async () => {
 };
 
 const getMailjetProvider = (): MailjetProvider => {
-  const mailjetPublicKey = "";
-  const mailjetPrivateKey = "";
+  const mailjetPublicKey = process.env.MAILJET_API_KEY_PUBLIC ?? "";
+  const mailjetPrivateKey = process.env.MAILJET_API_KEY_PRIVATE ?? "";
 
   return new MailjetProvider(mailjetPublicKey, mailjetPrivateKey);
 };
