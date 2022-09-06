@@ -10,13 +10,26 @@ export class SendService {
   ) {}
 
   async sendEmails(): Promise<void> {
+    try {
+      const unsentEmails = await this.getUnsentEmails();
+      console.log(`Found ${unsentEmails.length} queued emails`);
+      await this.processEmails(unsentEmails);
+    } catch (error) {
+      console.error("Encountered error in SendService\n", error);
+    }
+  }
+
+  private async getUnsentEmails() {
     const allEmails = await this.dataStore.getEmails();
     const queuedEmails = allEmails.filter(
       (email) => email.status === EmailStatus.Queued
     );
 
-    console.log(`Found ${queuedEmails.length} queued emails`);
-    for (const email of queuedEmails) {
+    return queuedEmails;
+  }
+
+  private async processEmails(emails: EmailRecord[]) {
+    for (const email of emails) {
       await this.updateStatus(email, EmailStatus.Processing);
       for (const provider of this.providers) {
         try {
@@ -25,8 +38,8 @@ export class SendService {
           console.log(`Successfully sent email with ID ${email.id}`);
 
           return;
-        } catch (e) {
-          console.error("Error encountered sending email\n", e);
+        } catch (error) {
+          console.error("Error encountered sending email\n", error);
         }
       }
 
